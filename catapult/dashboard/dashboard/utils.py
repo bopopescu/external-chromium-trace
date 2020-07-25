@@ -86,7 +86,7 @@ def TestPath(key):
     A test path string.
   """
   if key.kind() == 'Test':
-    # The Test key looks like ('Master', 'name', 'Bot', 'name', 'Test' 'name'..)
+    # The Test key looks like ('Main', 'name', 'Bot', 'name', 'Test' 'name'..)
     # Pull out every other entry and join with '/' to form the path.
     return '/'.join(key.flat()[1::2])
   assert key.kind() == 'TestMetadata' or key.kind() == 'TestContainer'
@@ -108,7 +108,7 @@ def TestKey(test_path):
   if path_parts is None:
     return None
   if len(path_parts) < 3:
-    key_list = [('Master', path_parts[0])]
+    key_list = [('Main', path_parts[0])]
     if len(path_parts) > 1:
       key_list += [('Bot', path_parts[1])]
     return ndb.Key(pairs=key_list)
@@ -158,7 +158,7 @@ def OldStyleTestKey(key_or_string):
     key_or_string = key_or_string.id()
   assert isinstance(key_or_string, basestring)
   path_parts = key_or_string.split('/')
-  key_parts = ['Master', path_parts[0], 'Bot', path_parts[1]]
+  key_parts = ['Main', path_parts[0], 'Bot', path_parts[1]]
   for part in path_parts[2:]:
     key_parts += ['Test', part]
   return ndb.Key(*key_parts)
